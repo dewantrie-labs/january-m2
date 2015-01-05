@@ -1,0 +1,41 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.andre.trainingm2.app.fragment.NewContact">
+
+    <!-- TODO: Update blank fragment layout -->
+<RelativeLayout android:layout_width="wrap_content" android:layout_height="wrap_content">
+    <ImageView
+            android:layout_width="@dimen/width_image"
+            android:layout_height="@dimen/height_image"
+            android:id="@+id/imageContact"
+            android:layout_gravity="left|top"
+            android:src="@drawable/default_thumb"/>
+
+
+    <EditText
+            android:layout_width="@dimen/position_name_edit"
+            android:layout_height="wrap_content"
+            android:id="@+id/editName"
+            android:hint="@string/name"
+            android:layout_toRightOf="@+id/imageContact"/>
+    <EditText
+            android:layout_width="@dimen/position_number_edit"
+            android:layout_height="wrap_content"
+            android:id="@+id/editNumber"
+            android:inputType="phone"
+            android:hint="@string/phone"
+            android:ems="10"
+            android:layout_toRightOf="@+id/imageContact"
+            android:layout_below="@+id/editName"/>
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Save"
+            android:id="@+id/save_button"
+            android:layout_below="@+id/imageContact"/>
+</RelativeLayout>
+
+
+</FrameLayout>
