@@ -35,14 +35,14 @@ public class NewContact extends Fragment {
     private Button saveButton;
     private static int RESULT_LOAD_IMAGE=1;
     private DatabaseContact dbHelper;
-    private Bitmap ImageSet;//=BitmapFactory.decodeResource(getResources(),R.drawable.default_thumb);
-
+    private Bitmap ImageSet;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_new_contact, container, false);
-        saveButton=(Button)view.findViewById(R.id.save_button);
+        ImageSet=BitmapFactory.decodeResource(getResources(),R.drawable.default_thumb);
+                saveButton=(Button)view.findViewById(R.id.save_button);
         imagePhone=(ImageView)view.findViewById(R.id.imageContact);
         Name=(EditText)view.findViewById(R.id.editName);
         Phone=(EditText)view.findViewById(R.id.editNumber);
