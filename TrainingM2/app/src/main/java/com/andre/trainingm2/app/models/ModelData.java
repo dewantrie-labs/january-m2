@@ -6,21 +6,29 @@ import android.graphics.Bitmap;
  * Created by Andree on 1/5/2015.
  */
 public class ModelData {
-    private Bitmap Pict;
+    private String Pict;
     private String Name;
     private String Number;
 
-    public ModelData(Bitmap bitmap, String name, String number) {
-        Pict =bitmap;
-        Name=name;
-        Number=number;
+
+
+    public void setName(String name) {
+        Name = name;
+    }
+
+    public void setNumber(String number) {
+        Number = number;
+    }
+
+    public void setPict(String pict) {
+        Pict = pict;
     }
 
     public String getName() {
         return Name;
     }
 
-    public Bitmap getPict() {
+    public String  getPict() {
         return Pict;
     }
 

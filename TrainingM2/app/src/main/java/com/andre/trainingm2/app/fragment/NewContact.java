@@ -7,18 +7,14 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
-import com.andre.trainingm2.app.Adapter.DatabaseContact;
+import android.widget.*;
+import com.andre.trainingm2.app.database.DatabaseContact;
 import com.andre.trainingm2.app.R;
 import com.andre.trainingm2.app.models.ModelData;
 
@@ -31,38 +27,39 @@ import java.sql.SQLException;
  */
 public class NewContact extends Fragment {
     private ImageView imagePhone;
-    private EditText Name,Phone;
+    private EditText name, phone;
     private Button saveButton;
     private static int RESULT_LOAD_IMAGE=1;
-    private DatabaseContact dbHelper;
-    private Bitmap ImageSet;
+    private DatabaseContact dbContact;
+    private String ImageSet;
+    private ModelData modelData;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_new_contact, container, false);
-        ImageSet=BitmapFactory.decodeResource(getResources(),R.drawable.default_thumb);
                 saveButton=(Button)view.findViewById(R.id.save_button);
         imagePhone=(ImageView)view.findViewById(R.id.imageContact);
-        Name=(EditText)view.findViewById(R.id.editName);
-        Phone=(EditText)view.findViewById(R.id.editNumber);
+        name =(EditText)view.findViewById(R.id.editName);
+        phone =(EditText)view.findViewById(R.id.editNumber);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ModelData modelData = new ModelData(getImageSet(), Name.getText().toString(), Phone.getText().toString());
-                dbHelper = new DatabaseContact(getActivity());
-                try {
-                    dbHelper.open();
-                    try {
-                        dbHelper.addRow(modelData);
-                    } finally {
-                        dbHelper.close();
-                    }
-                } catch (SQLException e) {
+                modelData = new ModelData();
+                modelData.setPict(getImageSet());
+                modelData.setName(name.getText().toString());
+                modelData.setNumber(phone.getText().toString());
+                dbContact = new DatabaseContact(getActivity());
+                try{
+                dbContact.addRow(modelData);
+                Toast.makeText(getActivity(),"success"+getImageSet(),Toast.LENGTH_SHORT).show();}
+                catch (Exception e){
+                    Toast.makeText(getActivity(),"gagal"+e.toString(),Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
                 }
+
             }
-        });
+            });
 
         imagePhone.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,14 +82,15 @@ public class NewContact extends Fragment {
             int columnIndex=cursor.getColumnIndex(filePathColumn[0]);
             String picturePath=cursor.getString(columnIndex);
             cursor.close();
-            imagePhone.setImageBitmap(BitmapFactory.decodeFile(picturePath));
-            setImageSet(BitmapFactory.decodeFile(picturePath));
+            Bitmap setImg=BitmapFactory.decodeFile((picturePath));
+            imagePhone.setImageBitmap(setImg);
+            setImageSet(picturePath);
         }
     }
-    private void setImageSet(Bitmap bitmap){
-        ImageSet=bitmap;
+    private void setImageSet(String string){
+        ImageSet=string;
     }
-    private Bitmap getImageSet(){
+    private String getImageSet(){
         return ImageSet;
     }
 
