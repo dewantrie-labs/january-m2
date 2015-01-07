@@ -19,13 +19,16 @@
         <activity
             android:name="com.andre.trainingm2.app.NewContactActivity"
             android:label="@string/title_activity_new_contact"
-                android:parentActivityName=".MainActivity">
+            android:parentActivityName="com.andre.trainingm2.app.MainActivity" >
             <meta-data
-                    android:name="android.support.PARENT_ACTIVITY"
-                    android:value=".MainActivity">
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" >
             </meta-data>
         </activity>
-
+        <activity
+            android:name="com.andre.trainingm2.app.EditContactActivity"
+            android:label="@string/title_activity_edit_contact" >
+        </activity>
     </application>
 
 </manifest>

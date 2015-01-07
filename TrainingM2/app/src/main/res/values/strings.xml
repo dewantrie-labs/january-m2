@@ -11,5 +11,6 @@
     <string name="add">add</string>
     <string name="title_activity_new_contact">NewContactActivity</string>
     <string name="title_activity_new_contact_tab">NewContactTab</string>
+    <string name="title_activity_edit_contact">EditContactActivity</string>
 
 </resources>

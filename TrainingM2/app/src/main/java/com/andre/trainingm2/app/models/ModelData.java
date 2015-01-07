@@ -7,11 +7,16 @@ public class ModelData {
     private String Pict;
     private String Name;
     private String Number;
+    private int id;
 
 
 
     public void setName(String name) {
         Name = name;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setNumber(String number) {
@@ -32,5 +37,9 @@ public class ModelData {
 
     public String getNumber() {
         return Number;
+    }
+
+    public int getId() {
+        return id;
     }
 }

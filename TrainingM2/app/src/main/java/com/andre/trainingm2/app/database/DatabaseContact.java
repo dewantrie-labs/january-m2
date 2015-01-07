@@ -82,10 +82,11 @@ public class DatabaseContact {
         }
     }
 
-    public ModelData getFirstModelDataFromDatabase() throws SQLException {
+    public ModelData getFirstDataFromDatabase() throws SQLException {
         Cursor cursor = db.query(true,TABLE_NAME, new String[]{ROW_NAME, ROW_PHONE_NUMBER,KEY_IMAGE}, null, null, null, null, null, null);
         if (cursor.moveToLast()) {
             ModelData modelData=new ModelData();
+            modelData.setId(cursor.getInt(cursor.getColumnIndex(ROW_ID)));
             modelData.setPict(cursor.getString(cursor.getColumnIndex(KEY_IMAGE)));
             modelData.setName(cursor.getString(cursor.getColumnIndex(ROW_NAME)));
             modelData.setNumber(cursor.getString(cursor.getColumnIndex(ROW_PHONE_NUMBER)));
@@ -97,6 +98,13 @@ public class DatabaseContact {
     }
 
 
+    public boolean update(ModelData modelData){
+    ContentValues values=new ContentValues();
+        values.put(ROW_NAME,modelData.getName());
+        values.put(ROW_PHONE_NUMBER,modelData.getNumber());
+        values.put(KEY_IMAGE,modelData.getPict());
+        return db.update(TABLE_NAME,values,ROW_ID+" = "+modelData.getId(),null)>0;
+    }
 
     public void deleteRow(String point) {
         try {
@@ -116,6 +124,7 @@ public class DatabaseContact {
             if (!cursor.isAfterLast()) {
                 do {
                     ModelData modelData = new ModelData();
+                    modelData.setId(cursor.getInt(cursor.getColumnIndex(ROW_ID)));
                     modelData.setName(cursor.getString(cursor.getColumnIndex(ROW_NAME)));
                     modelData.setNumber(cursor.getString(cursor.getColumnIndex(ROW_PHONE_NUMBER)));
                     modelData.setPict(cursor.getString(cursor.getColumnIndex(KEY_IMAGE)));
