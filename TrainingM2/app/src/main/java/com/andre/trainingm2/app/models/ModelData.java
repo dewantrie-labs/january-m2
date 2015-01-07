@@ -1,7 +1,5 @@
 package com.andre.trainingm2.app.models;
 
-import android.graphics.Bitmap;
-
 /**
  * Created by Andree on 1/5/2015.
  */

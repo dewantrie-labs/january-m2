@@ -1,4 +1,4 @@
-package com.andre.trainingm2.app.Adapter;
+package com.andre.trainingm2.app.adapter;
 
 import android.app.Activity;
 import android.content.Context;
@@ -57,8 +57,12 @@ public class AdapterDatabase extends BaseAdapter {
         image1 = (ImageView) view.findViewById(R.id.imageView);
         text1 = (TextView) view.findViewById(R.id.textView1);
         text2 = (TextView) view.findViewById(R.id.textView2);
-        Bitmap imageNew=Bitmap.createScaledBitmap(BitmapFactory.decodeFile(listData.get(i).getPict()),100,100,false);
-        image1.setImageBitmap(imageNew);
+        if (listData.get(i).getPict()!=null){
+        Bitmap imageNew=Bitmap.createScaledBitmap(BitmapFactory.decodeFile(listData.get(i).getPict()),50,50,false);
+        image1.setImageBitmap(imageNew);}
+        else {
+            image1.setImageResource(R.drawable.default_thumb);
+        }
         text1.setText(listData.get(i).getName());
         text2.setText(listData.get(i).getNumber());
         return view;

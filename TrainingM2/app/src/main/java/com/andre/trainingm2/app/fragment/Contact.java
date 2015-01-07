@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.Toast;
-import com.andre.trainingm2.app.Adapter.AdapterDatabase;
+import com.andre.trainingm2.app.adapter.AdapterDatabase;
 import com.andre.trainingm2.app.database.DatabaseContact;
 import com.andre.trainingm2.app.models.ModelData;
 
@@ -18,13 +18,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A simple {@link Fragment} subclass.
+ * A simple {@link android.app.Fragment} subclass.
  */
 public class Contact extends ListFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
         List<ModelData> listData = new DatabaseContact(getActivity()).getAllData();
         if (listData != null) {
             AdapterDatabase adapterDatabase = new AdapterDatabase(getActivity(), listData);

@@ -8,5 +8,8 @@
     <string name="name">Name</string>
     <string name="phone">Phone Number</string>
     <string name="Save">Save</string>
+    <string name="add">add</string>
+    <string name="title_activity_new_contact">NewContactActivity</string>
+    <string name="title_activity_new_contact_tab">NewContactTab</string>
 
 </resources>

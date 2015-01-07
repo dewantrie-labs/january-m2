@@ -7,4 +7,5 @@
     <dimen name="height_text_image">20dp</dimen>
     <dimen name="position_name_edit">152dp</dimen>
     <dimen name="position_number_edit">154dp</dimen>
+    <dimen name="tab_pos">0dp</dimen>
 </resources>

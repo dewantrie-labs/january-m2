@@ -19,26 +19,22 @@ public class DatabaseContact {
     private DatabaseOpenHelper dbHelper;
     private SQLiteDatabase db;
 
-    private static final String ROW_ID = "id";
-    private static final String ROW_NAME = "Nama";
-    private static final String ROW_PHONE_NUMBER = "Number";
-    private static final String KEY_IMAGE = "Gambar";
+    public static final String ROW_ID = "id";
+    public static final String ROW_NAME = "Nama";
+    public static final String ROW_PHONE_NUMBER = "Number";
+    public static final String KEY_IMAGE = "Gambar";
 
-    private static final String DATABASE_NAME = "DBContact";
-    private static final int DATABASE_VERSION = 1;
+    public static final String DATABASE_NAME = "DBContact";
+    public static final int DATABASE_VERSION = 1;
 
-    private static final String TABLE_NAME = "TableContact";
+    public static final String TABLE_NAME = "TableContact";
 
-    private static final String CREATE_TABLE = "create table " + TABLE_NAME + "(" + ROW_ID + " integer primary key autoincrement," + ROW_NAME + " text," + ROW_PHONE_NUMBER + " text," + KEY_IMAGE + " text);";
-
-
-    public DatabaseContact(Context context) {
-        this.context = context;
-        dbHelper = new DatabaseOpenHelper(context);
-        db = dbHelper.getWritableDatabase();
-    }
-
-
+    private static final String CREATE_TABLE = "create table "
+            + TABLE_NAME + "("
+            + ROW_ID + " integer primary key autoincrement,"
+            + ROW_NAME + " text,"
+            + ROW_PHONE_NUMBER + " text,"
+            + KEY_IMAGE + " text);";
 
 
     private static class DatabaseOpenHelper extends SQLiteOpenHelper {
@@ -57,6 +53,16 @@ public class DatabaseContact {
             sqLiteDatabase.execSQL("DROP TABLE IF EXIST " + DATABASE_NAME);
             onCreate(sqLiteDatabase);
         }
+    }
+
+
+
+
+
+    public DatabaseContact(Context context) {
+        this.context = context;
+        dbHelper = new DatabaseOpenHelper(context);
+        db = dbHelper.getWritableDatabase();
     }
 
     public void close() {
@@ -102,10 +108,11 @@ public class DatabaseContact {
 
     public ArrayList<ModelData> getAllData() {
         ArrayList<ModelData> dataArray = new ArrayList<ModelData>();
-        Cursor cursor;
+        Cursor cursor = null;
         try {
             cursor = db.query(TABLE_NAME, new String[]{ROW_ID, ROW_NAME, ROW_PHONE_NUMBER,KEY_IMAGE}, null, null, null, null, null);
             cursor.moveToFirst();
+            try{
             if (!cursor.isAfterLast()) {
                 do {
                     ModelData modelData = new ModelData();
@@ -115,10 +122,14 @@ public class DatabaseContact {
                     dataArray.add(modelData);
                 } while (cursor.moveToNext());
             }
+            }finally {
+                cursor.close();
+            }
         } catch (Exception e) {
-            Log.e("DB error",e.toString());
+            Log.e("DB error", e.toString());
             e.printStackTrace();
         }
         return dataArray;
     }
+
 }
