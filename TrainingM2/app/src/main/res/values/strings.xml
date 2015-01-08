@@ -12,5 +12,12 @@
     <string name="title_activity_new_contact">NewContactActivity</string>
     <string name="title_activity_new_contact_tab">NewContactTab</string>
     <string name="title_activity_edit_contact">EditContactActivity</string>
+    <string name="Tab1">Tab1</string>
+    <string name="Tab2">Tab2</string>
+    <string name="Favorite">Favorite</string>
+    <string name="Contact">Contact</string>
+    <string name="editContact">Edit Contact</string>
+    <string name="newContact">New Contact</string>
+    <string name="addFav">Add Favorites</string>
 
 </resources>

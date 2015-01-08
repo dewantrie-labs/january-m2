@@ -8,6 +8,7 @@ public class ModelData {
     private String Name;
     private String Number;
     private int id;
+    private int favorite;
 
 
 
@@ -41,5 +42,13 @@ public class ModelData {
 
     public int getId() {
         return id;
+    }
+
+    public void setFavorite(int favorite) {
+        this.favorite = favorite;
+    }
+
+    public int isFavorite() {
+        return favorite;
     }
 }

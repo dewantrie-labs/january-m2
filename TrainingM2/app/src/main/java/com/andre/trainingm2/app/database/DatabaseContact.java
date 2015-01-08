@@ -14,32 +14,33 @@ import java.util.ArrayList;
 /**
  * Created by Andree on 1/5/2015.
  */
-public class DatabaseContact {
-    private final Context context;
-    private DatabaseOpenHelper dbHelper;
+public class DatabaseContact extends SQLiteOpenHelper{
+    //private final Context context;
+    //private DatabaseOpenHelper dbHelper;
     private SQLiteDatabase db;
 
     public static final String ROW_ID = "id";
     public static final String ROW_NAME = "Nama";
     public static final String ROW_PHONE_NUMBER = "Number";
     public static final String KEY_IMAGE = "Gambar";
+    public static final String ROW_FAV = "favorite";
 
     public static final String DATABASE_NAME = "DBContact";
     public static final int DATABASE_VERSION = 1;
 
-    public static final String TABLE_NAME = "TableContact";
+    public static final String TABLE_CONTACT = "TableContact";
 
     private static final String CREATE_TABLE = "create table "
-            + TABLE_NAME + "("
+            + TABLE_CONTACT + "("
             + ROW_ID + " integer primary key autoincrement,"
             + ROW_NAME + " text,"
             + ROW_PHONE_NUMBER + " text,"
-            + KEY_IMAGE + " text);";
+            + KEY_IMAGE + " text,"
+            + ROW_FAV+" Boolean INTEGER default 0);";
 
 
-    private static class DatabaseOpenHelper extends SQLiteOpenHelper {
 
-        public DatabaseOpenHelper(Context context) {
+        public DatabaseContact(Context context) {
             super(context, DATABASE_NAME, null, DATABASE_VERSION);
         }
 
@@ -59,7 +60,7 @@ public class DatabaseContact {
 
 
 
-    public DatabaseContact(Context context) {
+/*    public DatabaseContact(Context context) {
         this.context = context;
         dbHelper = new DatabaseOpenHelper(context);
         db = dbHelper.getWritableDatabase();
@@ -75,7 +76,7 @@ public class DatabaseContact {
         values.put(ROW_PHONE_NUMBER, modeldata.getNumber());
         values.put(KEY_IMAGE, modeldata.getPict());
         try{
-        db.insert(TABLE_NAME, null, values);
+        db.insert(TABLE_CONTACT, null, values);
         }catch (Exception e){
             Log.e("DB Error",e.toString());
             e.printStackTrace();
@@ -83,7 +84,7 @@ public class DatabaseContact {
     }
 
     public ModelData getFirstDataFromDatabase() throws SQLException {
-        Cursor cursor = db.query(true,TABLE_NAME, new String[]{ROW_NAME, ROW_PHONE_NUMBER,KEY_IMAGE}, null, null, null, null, null, null);
+        Cursor cursor = db.query(true, TABLE_CONTACT, new String[]{ROW_NAME, ROW_PHONE_NUMBER,KEY_IMAGE}, null, null, null, null, null, null);
         if (cursor.moveToLast()) {
             ModelData modelData=new ModelData();
             modelData.setId(cursor.getInt(cursor.getColumnIndex(ROW_ID)));
@@ -103,12 +104,12 @@ public class DatabaseContact {
         values.put(ROW_NAME,modelData.getName());
         values.put(ROW_PHONE_NUMBER,modelData.getNumber());
         values.put(KEY_IMAGE,modelData.getPict());
-        return db.update(TABLE_NAME,values,ROW_ID+" = "+modelData.getId(),null)>0;
+        return db.update(TABLE_CONTACT,values,ROW_ID+" = "+modelData.getId(),null)>0;
     }
 
     public void deleteRow(String point) {
         try {
-            db.delete(TABLE_NAME, ROW_ID, null);
+            db.delete(TABLE_CONTACT, ROW_ID, null);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -118,7 +119,7 @@ public class DatabaseContact {
         ArrayList<ModelData> dataArray = new ArrayList<ModelData>();
         Cursor cursor = null;
         try {
-            cursor = db.query(TABLE_NAME, new String[]{ROW_ID, ROW_NAME, ROW_PHONE_NUMBER,KEY_IMAGE}, null, null, null, null, null);
+            cursor = db.query(TABLE_CONTACT, new String[]{ROW_ID, ROW_NAME, ROW_PHONE_NUMBER,KEY_IMAGE}, null, null, null, null, null);
             cursor.moveToFirst();
             try{
             if (!cursor.isAfterLast()) {
@@ -141,4 +142,4 @@ public class DatabaseContact {
         return dataArray;
     }
 
-}
+}*/

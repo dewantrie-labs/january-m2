@@ -1,21 +1,22 @@
 package com.andre.trainingm2.app.fragment;
 
 
-import android.database.Cursor;
+import android.content.Intent;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.AdapterView;
 import android.widget.Toast;
-import com.andre.trainingm2.app.adapter.AdapterDatabase;
-import com.andre.trainingm2.app.database.DatabaseContact;
+import com.andre.trainingm2.app.EditContactActivity;
+import com.andre.trainingm2.app.adapter.AdapterContact;
+import com.andre.trainingm2.app.dao.DaoContact;
 import com.andre.trainingm2.app.models.ModelData;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * A simple {@link android.app.Fragment} subclass.
@@ -25,16 +26,57 @@ public class Contact extends ListFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
-        List<ModelData> listData = new DatabaseContact(getActivity()).getAllData();
-        if (listData != null) {
-            AdapterDatabase adapterDatabase = new AdapterDatabase(getActivity(), listData);
-            setListAdapter(adapterDatabase);
-        } else {
-            Toast.makeText(getActivity(), "Database is null.", Toast.LENGTH_LONG).show();
-        }
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
+    @Override
+    public void onViewCreated(View view,Bundle savedInstance){
+        final DaoContact daoContact = new DaoContact(getActivity());
 
+        try {
+            daoContact.open();
+            final ArrayList<ModelData> listData = daoContact.getAllContact();
+            try{
+                if (listData != null){
+                    AdapterContact adapterDatabase=new AdapterContact(getActivity(),listData);
+                    setListAdapter(adapterDatabase);
+
+                    getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                            Intent edit=new Intent(getActivity(), EditContactActivity.class);
+
+                            try {
+                                daoContact.open();
+                                try{
+                                    ModelData modelData=daoContact.getContact(listData.get(i).getId());
+                                    Bundle editData=new Bundle();
+
+                                    editData.putInt("id",modelData.getId());
+                                    editData.putString("nama", modelData.getName());
+                                    editData.putString("phone",modelData.getNumber());
+                                    editData.putString("image", modelData.getPict());
+                                    editData.putBoolean("setEdit",true);
+                                    edit.putExtras(editData);
+
+                                    startActivity(edit);
+                                    getActivity().finish();
+                                }finally {
+                                    daoContact.close();
+                                }
+                            } catch (SQLException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                    });
+                }else
+                    Toast.makeText(getActivity(),"Database empty",Toast.LENGTH_SHORT).show();
+            }finally {
+                daoContact.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

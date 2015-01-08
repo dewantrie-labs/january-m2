@@ -8,11 +8,11 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
+import com.andre.trainingm2.app.dao.DaoContact;
 import com.andre.trainingm2.app.database.DatabaseContact;
+import com.andre.trainingm2.app.models.ImageSet;
 import com.andre.trainingm2.app.models.ModelData;
 
 
@@ -20,14 +20,15 @@ public class NewContactActivity extends ActionBarActivity {
     private ImageView imagePhone;
     private EditText name, phone;
     private static int RESULT_LOAD_IMAGE=1;
-    private DatabaseContact dbContact;
-    private String ImageSet;
+    private DaoContact dbContact;
     private ModelData modelData;
-    private TabHost tabHost;
     private Button saveButton;
+    private ImageSet imageSet=new ImageSet();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
         setContentView(R.layout.activity_new_contact);
         imagePhone = (ImageView) findViewById(R.id.imageContact);
         name = (EditText) findViewById(R.id.editName);
@@ -36,26 +37,31 @@ public class NewContactActivity extends ActionBarActivity {
 
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setTitle(getString(R.string.newContact));
 
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 modelData = new ModelData();
-                modelData.setPict(getImageSet());
+                modelData.setPict(imageSet.getImageSet());
                 modelData.setName(name.getText().toString());
                 modelData.setNumber(phone.getText().toString());
-                dbContact = new DatabaseContact(NewContactActivity.this);
+                dbContact = new DaoContact(NewContactActivity.this);
                 try {
+                    dbContact.open();
                     try{
-                        dbContact.addRow(modelData);
-                        Toast.makeText(NewContactActivity.this, "success" + getImageSet(), Toast.LENGTH_SHORT).show();}
+                        dbContact.CreateContact(modelData);
+                        Toast.makeText(NewContactActivity.this, "success", Toast.LENGTH_SHORT).show();}
                     finally {
                         dbContact.close();
                     }
                 } catch (Exception e) {
-                    Toast.makeText(NewContactActivity.this, "gagal" + e.toString(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(NewContactActivity.this, "failed" + e.toString(), Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
                 }
+                Intent backMenu = new Intent(NewContactActivity.this,MainActivity.class);
+                startActivity(backMenu);
+                NewContactActivity.this.finish();
 
             }
         });
@@ -82,16 +88,10 @@ public class NewContactActivity extends ActionBarActivity {
             cursor.close();
             Bitmap setImg = BitmapFactory.decodeFile((picturePath));
             imagePhone.setImageBitmap(setImg);
-            setImageSet(picturePath);
+            imageSet.setImageSet(picturePath);
         }
     }
 
-    private void setImageSet(String string) {
-        ImageSet = string;
-    }
 
-    private String getImageSet() {
-        return ImageSet;
-    }
 
 }

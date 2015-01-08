@@ -23,13 +23,15 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setHomeButtonEnabled(true);
+
         tabHost=(FragmentTabHost)findViewById(R.id.tab_host);
 
         tabHost.setup(this,getSupportFragmentManager(),R.id.utamaFrame);
-        tabHost.addTab(tabHost.newTabSpec("Tab1").setIndicator("Favorite"), Favorite.class, null);
-        tabHost.addTab(tabHost.newTabSpec("Tab2").setIndicator("Contact"),Contact.class,null);
+        tabHost.addTab(tabHost.newTabSpec(getString(R.string.Tab1)).setIndicator(getString(R.string.Favorite)), Favorite.class, null);
+        tabHost.addTab(tabHost.newTabSpec(getString(R.string.Tab2)).setIndicator(getString(R.string.Contact)),Contact.class,null);
         tabHost.setCurrentTabByTag("tag2");
 
         tabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
@@ -39,11 +41,11 @@ public class MainActivity extends ActionBarActivity {
 /*       FragmentManager fragmentManager=getSupportFragmentManager();
        NewContact newContact = (NewContact)fragmentManager.findFragmentByTag("New Contact");
        android.support.v4.app.FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();*/
-           if (s.equalsIgnoreCase("Tab1")){
-               setTitle("Favorite");
+           if (s.equalsIgnoreCase(getString(R.string.Tab1))){
+               setTitle(getString(R.string.Favorite));
            }
-           else if (s.equalsIgnoreCase("Tab2")) {
-           setTitle("Contact");}
+           else if (s.equalsIgnoreCase(getString(R.string.Tab2))) {
+           setTitle(getString(R.string.Contact));}
            }
      });
     }
@@ -57,9 +59,12 @@ public class MainActivity extends ActionBarActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
     item.getItemId();
-        if (getTitle().toString().equalsIgnoreCase("Contact")){
+
+        if (getTitle().toString().equalsIgnoreCase(getString(R.string.Contact))){
         Intent nContact=new Intent(this,NewContactActivity.class);
-        startActivity(nContact);}
+        startActivity(nContact);
+        }
+
     return super.onOptionsItemSelected(item);
     }
 }
