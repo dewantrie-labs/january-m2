@@ -61,8 +61,7 @@ public class AdapterContact extends BaseAdapter {
         else {
             imageContactList.setImageResource(R.drawable.default_thumb);
         }
-        String test = "" + listData.get(i).isFavorite();
-        rowNameContact.setText(listData.get(i).getName() + test);
+        rowNameContact.setText(listData.get(i).getName());
         rowNumberContact.setText(listData.get(i).getNumber());
 
         return view;

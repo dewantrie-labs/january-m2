@@ -13,7 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import com.andre.trainingm2.app.dao.DaoContact;
-import com.andre.trainingm2.app.models.ImageSet;
+import com.andre.trainingm2.app.models.OtherSet;
 import com.andre.trainingm2.app.models.ModelData;
 
 import java.sql.SQLException;
@@ -25,7 +25,7 @@ public class EditContactActivity extends ActionBarActivity implements View.OnCli
     private EditText editPhoneData;
     private ImageView imageEdit;
     private Button saveDataEdit;
-    private ImageSet imageSet=new ImageSet();
+    private OtherSet otherSet =new OtherSet();
     private static int RESULT_LOAD_IMAGE = 1;
     private Button addFav;
     private Bundle bundle;
@@ -67,7 +67,7 @@ public class EditContactActivity extends ActionBarActivity implements View.OnCli
             if (bundle.getString("image")!=null){
                 Bitmap bitmap= Bitmap.createScaledBitmap(BitmapFactory.decodeFile(bundle.getString("image")),50,50,false);
                 imageEdit.setImageBitmap(bitmap);
-                imageSet.setImageSet(imageData);
+                otherSet.setImageSet(imageData);
             }
             else
                 imageEdit.setImageResource(R.drawable.default_thumb);
@@ -87,7 +87,7 @@ public class EditContactActivity extends ActionBarActivity implements View.OnCli
                 modelData.setId(bundle.getInt("id"));
                 modelData.setName(editNameData.getText().toString());
                 modelData.setNumber(editPhoneData.getText().toString());
-                modelData.setPict(imageSet.getImageSet());
+                modelData.setPict(otherSet.getImageSet());
 
                 try {
                     daoContact.open();
@@ -147,7 +147,7 @@ public class EditContactActivity extends ActionBarActivity implements View.OnCli
 
             Bitmap bitmap = BitmapFactory.decodeFile(pathPicture);
             imageEdit.setImageBitmap(bitmap);
-            imageSet.setImageSet(pathPicture);
+            otherSet.setImageSet(pathPicture);
         }
     }
 }

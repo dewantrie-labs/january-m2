@@ -15,10 +15,11 @@ import android.widget.TabHost;
 import android.widget.Toast;
 import com.andre.trainingm2.app.fragment.Contact;
 import com.andre.trainingm2.app.fragment.Favorite;
+import com.andre.trainingm2.app.models.OtherSet;
 
 
-public class MainActivity extends ActionBarActivity {
-    private FragmentTabHost tabHost;
+public class MainActivity extends ActionBarActivity{
+    public FragmentTabHost tabHost;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +34,7 @@ public class MainActivity extends ActionBarActivity {
         tabHost.addTab(tabHost.newTabSpec(getString(R.string.Tab1)).setIndicator(getString(R.string.Favorite)), Favorite.class, null);
         tabHost.addTab(tabHost.newTabSpec(getString(R.string.Tab2)).setIndicator(getString(R.string.Contact)),Contact.class,null);
         tabHost.setCurrentTabByTag("tag2");
+
 
         tabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
 
@@ -49,6 +51,7 @@ public class MainActivity extends ActionBarActivity {
            }
      });
     }
+
 @Override
     public boolean onCreateOptionsMenu(Menu menu){
     MenuInflater inflater=getMenuInflater();
@@ -64,7 +67,11 @@ public class MainActivity extends ActionBarActivity {
         Intent nContact=new Intent(this,NewContactActivity.class);
         startActivity(nContact);
         }
-
+        else{
+            tabHost.onTabChanged(getString(R.string.Tab2));
+            boolean addFav = true;
+            Contact.newInstance(addFav);
+        }
     return super.onOptionsItemSelected(item);
     }
 }

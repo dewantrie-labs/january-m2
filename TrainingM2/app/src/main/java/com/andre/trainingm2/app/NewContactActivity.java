@@ -11,8 +11,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
 import com.andre.trainingm2.app.dao.DaoContact;
-import com.andre.trainingm2.app.database.DatabaseContact;
-import com.andre.trainingm2.app.models.ImageSet;
+import com.andre.trainingm2.app.models.OtherSet;
 import com.andre.trainingm2.app.models.ModelData;
 
 
@@ -23,7 +22,7 @@ public class NewContactActivity extends ActionBarActivity {
     private DaoContact dbContact;
     private ModelData modelData;
     private Button saveButton;
-    private ImageSet imageSet=new ImageSet();
+    private OtherSet otherSet =new OtherSet();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +42,7 @@ public class NewContactActivity extends ActionBarActivity {
             @Override
             public void onClick(View view) {
                 modelData = new ModelData();
-                modelData.setPict(imageSet.getImageSet());
+                modelData.setPict(otherSet.getImageSet());
                 modelData.setName(name.getText().toString());
                 modelData.setNumber(phone.getText().toString());
                 dbContact = new DaoContact(NewContactActivity.this);
@@ -88,7 +87,7 @@ public class NewContactActivity extends ActionBarActivity {
             cursor.close();
             Bitmap setImg = BitmapFactory.decodeFile((picturePath));
             imagePhone.setImageBitmap(setImg);
-            imageSet.setImageSet(picturePath);
+            otherSet.setImageSet(picturePath);
         }
     }
 
