@@ -21,6 +21,8 @@ import com.andre.trainingm2.app.models.OtherSet;
 
 public class MainActivity extends ActionBarActivity{
     public FragmentTabHost tabHost;
+    boolean addFav;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +52,9 @@ public class MainActivity extends ActionBarActivity{
                setTitle(getString(R.string.Favorite));
            }
            else if (s.equalsIgnoreCase(getString(R.string.Tab2))) {
-           setTitle(getString(R.string.Contact));}
+           setTitle(getString(R.string.Contact));
+               addFav = false;
+               Contact.newInstance(addFav);}
            }
      });
     }
@@ -72,8 +76,8 @@ public class MainActivity extends ActionBarActivity{
                 startActivity(nContact);
             } else {
                 tabHost.onTabChanged(getString(R.string.Tab2));
-                boolean addFav = true;
                 setVisible(true);
+                addFav = true;
                 Contact.newInstance(addFav);
             }
             item.setVisible(true);
