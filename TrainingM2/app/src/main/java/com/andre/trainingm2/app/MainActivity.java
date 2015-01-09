@@ -29,7 +29,7 @@ public class MainActivity extends ActionBarActivity{
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.blue400)));
-
+        getSupportActionBar().setTitle(getString(R.string.Favorite));
         tabHost=(FragmentTabHost)findViewById(R.id.tab_host);
 
         tabHost.setup(this, getSupportFragmentManager(), R.id.utamaFrame);
