@@ -2,6 +2,7 @@ package com.andre.trainingm2.app;
 
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTabHost;
@@ -27,13 +28,15 @@ public class MainActivity extends ActionBarActivity{
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.blue400)));
 
         tabHost=(FragmentTabHost)findViewById(R.id.tab_host);
 
-        tabHost.setup(this,getSupportFragmentManager(),R.id.utamaFrame);
+        tabHost.setup(this, getSupportFragmentManager(), R.id.utamaFrame);
         tabHost.addTab(tabHost.newTabSpec(getString(R.string.Tab1)).setIndicator(getString(R.string.Favorite)), Favorite.class, null);
-        tabHost.addTab(tabHost.newTabSpec(getString(R.string.Tab2)).setIndicator(getString(R.string.Contact)),Contact.class,null);
+        tabHost.addTab(tabHost.newTabSpec(getString(R.string.Tab2)).setIndicator(getString(R.string.Contact)), Contact.class, null);
         tabHost.setCurrentTabByTag("tag2");
+
 
 
         tabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
@@ -61,17 +64,21 @@ public class MainActivity extends ActionBarActivity{
 }
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
-    item.getItemId();
-
-        if (getTitle().toString().equalsIgnoreCase(getString(R.string.Contact))){
-        Intent nContact=new Intent(this,NewContactActivity.class);
-        startActivity(nContact);
-        }
-        else{
-            tabHost.onTabChanged(getString(R.string.Tab2));
-            boolean addFav = true;
-            Contact.newInstance(addFav);
+    int id = item.getItemId();
+        if (id == R.id.add) {
+            if (getTitle().toString().equalsIgnoreCase(getString(R.string.Contact))) {
+                setVisible(true);
+                Intent nContact = new Intent(this, NewContactActivity.class);
+                startActivity(nContact);
+            } else {
+                tabHost.onTabChanged(getString(R.string.Tab2));
+                boolean addFav = true;
+                setVisible(true);
+                Contact.newInstance(addFav);
+            }
+            item.setVisible(true);
         }
     return super.onOptionsItemSelected(item);
     }
+
 }

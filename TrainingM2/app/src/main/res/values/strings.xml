@@ -19,5 +19,10 @@
     <string name="editContact">Edit Contact</string>
     <string name="newContact">New Contact</string>
     <string name="addFav">Add Favorites</string>
+    <string name="alert">Delete contact?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="del">delete</string>
+    <string name="fav">contact is favorites</string>
 
 </resources>

@@ -142,4 +142,12 @@ public class DaoContact {
         }
         return listFav;
     }
+
+    public void deleteRow(ModelData modelData){
+        try{
+            database.delete(DatabaseContact.TABLE_CONTACT,DatabaseContact.ROW_ID+ " = "+modelData.getId(),null);
+        }catch (Exception e){
+           Log.e("error",e.toString());
+        }
+    }
 }

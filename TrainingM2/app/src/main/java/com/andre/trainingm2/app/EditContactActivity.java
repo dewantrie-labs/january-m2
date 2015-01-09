@@ -1,17 +1,23 @@
 package com.andre.trainingm2.app;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 import com.andre.trainingm2.app.dao.DaoContact;
 import com.andre.trainingm2.app.models.OtherSet;
 import com.andre.trainingm2.app.models.ModelData;
@@ -48,6 +54,8 @@ public class EditContactActivity extends ActionBarActivity implements View.OnCli
         addFav.setOnClickListener(EditContactActivity.this);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.blue400)));
         setTitle(getString(R.string.editContact));
 
         bundle = getIntent().getExtras();
@@ -58,6 +66,7 @@ public class EditContactActivity extends ActionBarActivity implements View.OnCli
 
         if (option==true){
             addFav.setVisibility(View.VISIBLE);
+            option=false;
         }
 
         if (bundle != null){
@@ -89,21 +98,43 @@ public class EditContactActivity extends ActionBarActivity implements View.OnCli
                 modelData.setNumber(editPhoneData.getText().toString());
                 modelData.setPict(otherSet.getImageSet());
 
-                try {
-                    daoContact.open();
-                    try{
-                        daoContact.update(modelData);
-                    }finally {
-                        daoContact.close();
-                    }
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
 
+                if (modelData.getName()!= null
+                    && modelData.getNumber().toString()!=null
+                    && otherSet.getImageSet()!=null) {
+
+                    try {
+                        daoContact.open();
+                        try {
+                            daoContact.update(modelData);
+                        } finally {
+                            daoContact.close();
+                        }
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+                else{
+
+                    try {
+                        daoContact.open();
+                        try{
+
+                            modelData.setId(bundle.getInt("id"));
+                            daoContact.deleteRow(modelData);
+
+                        }finally {
+                            daoContact.close();
+                        }
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
                 Intent backMenu = new Intent(EditContactActivity.this,MainActivity.class);
                 startActivity(backMenu);
                 EditContactActivity.this.finish();
                 break;
+
             case R.id.editImageContact:
                 Intent exploreImage = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(exploreImage, RESULT_LOAD_IMAGE);
@@ -112,22 +143,26 @@ public class EditContactActivity extends ActionBarActivity implements View.OnCli
             case R.id.button_add_fav:
                 modelData=new ModelData();
                 daoContact=new DaoContact(EditContactActivity.this);
-
-                modelData.setFavorite(1);
-                modelData.setId(bundle.getInt("id"));
-                try {
-                    daoContact.open();
-                    try{
-                        daoContact.toFavorites(modelData);
-                    }finally {
-                        daoContact.close();
-                    }
-                } catch (SQLException e) {
-                    e.printStackTrace();
+                if (bundle.getInt("favorite") == 1){
+                    Toast.makeText(getApplicationContext(),getString(R.string.fav),Toast.LENGTH_SHORT).show();
                 }
+                else {
+                    modelData.setFavorite(1);
+                    modelData.setId(bundle.getInt("id"));
+                    try {
+                        daoContact.open();
+                        try {
+                            daoContact.toFavorites(modelData);
+                        } finally {
+                            daoContact.close();
+                        }
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
 
-                Intent backToMenu = new Intent(EditContactActivity.this,MainActivity.class);
-                startActivity(backToMenu);
+                    Intent backToMenu = new Intent(EditContactActivity.this, MainActivity.class);
+                    startActivity(backToMenu);
+                }
                 break;
         }
     }
@@ -149,5 +184,35 @@ public class EditContactActivity extends ActionBarActivity implements View.OnCli
             imageEdit.setImageBitmap(bitmap);
             otherSet.setImageSet(pathPicture);
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menu_edit_contact,menu);
+
+        bundle = getIntent().getExtras();
+        Boolean option = bundle.getBoolean("setEdit");
+
+        MenuItem item = menu.findItem(R.id.delete);
+        if (option != true) {
+            item.setVisible(true);
+            option=false;
+        }
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        int id = item.getItemId();
+
+            if (id == R.id.delete) {
+            editPhoneData.setText(null);
+            editNameData.setText(null);
+            imageEdit.setImageResource(R.drawable.default_thumb);
+            otherSet.setImageSet(null);
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }
