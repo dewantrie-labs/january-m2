@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.andre.trainingm2.app.R;
 import com.andre.trainingm2.app.models.ModelData;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 /**
@@ -56,7 +57,7 @@ public class AdapterContact extends BaseAdapter {
         rowNumberContact = (TextView) view.findViewById(R.id.rowNumber);
 
         if (listData.get(i).getPict()!= null){
-        Bitmap imageNew = Bitmap.createScaledBitmap(BitmapFactory.decodeFile(listData.get(i).getPict()),50,50,false);
+        Bitmap imageNew = Bitmap.createScaledBitmap(BitmapFactory.decodeFile(listData.get(i).getPict()), 100, 100, false);
         imageContactList.setImageBitmap(imageNew);}
         else {
             imageContactList.setImageResource(R.drawable.default_thumb);

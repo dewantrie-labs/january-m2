@@ -34,12 +34,11 @@ public class MainActivity extends ActionBarActivity{
         getSupportActionBar().setTitle(getString(R.string.Favorite));
         tabHost=(FragmentTabHost)findViewById(R.id.tab_host);
 
+
         tabHost.setup(this, getSupportFragmentManager(), R.id.utamaFrame);
         tabHost.addTab(tabHost.newTabSpec(getString(R.string.Tab1)).setIndicator(getString(R.string.Favorite)), Favorite.class, null);
         tabHost.addTab(tabHost.newTabSpec(getString(R.string.Tab2)).setIndicator(getString(R.string.Contact)), Contact.class, null);
         tabHost.setCurrentTabByTag("tag2");
-
-
 
         tabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
 

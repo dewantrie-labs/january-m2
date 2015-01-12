@@ -59,7 +59,7 @@ public class AdapterFavorites extends BaseAdapter{
         rowNumberFav.setText(listFavorites.get(i).getNumber());
 
         if (listFavorites.get(i).getPict()!=null){
-            Bitmap bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeFile(listFavorites.get(i).getPict()), 50, 50, false);
+            Bitmap bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeFile(listFavorites.get(i).getPict()), 200, 200, false);
             listImageFav.setImageBitmap(bitmap);
         }
         else{
