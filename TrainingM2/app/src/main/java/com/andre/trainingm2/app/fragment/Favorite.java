@@ -3,6 +3,8 @@ package com.andre.trainingm2.app.fragment;
 
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -75,6 +77,47 @@ public class Favorite extends ListFragment {
                                 e.printStackTrace();
                             }
 
+                        }
+                    });
+
+                    getListView().setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                        @Override
+                        public boolean onItemLongClick(AdapterView<?> adapterView, View view, final int pos, long l) {
+                            AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+                            alert.setMessage(getString(R.string.delFav));
+                            alert.setCancelable(true);
+
+                            alert.setPositiveButton(getString(R.string.yes),new DialogInterface.OnClickListener(){
+
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    ModelData modelData = new ModelData();
+
+                                    try {
+                                        daoContact.open();
+                                        try{
+                                            modelData.setId(listFavorites.get(pos).getId());
+                                            modelData.setFavorite(0);
+                                            daoContact.toFavorites(modelData);
+                                            getActivity().recreate();
+                                        }finally {
+                                            daoContact.close();
+                                        }
+                                    } catch (SQLException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            });
+
+                            alert.setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.cancel();
+                                }
+                            });
+                            AlertDialog dialog = alert.create();
+                            dialog.show();
+                            return false;
                         }
                     });
                 }

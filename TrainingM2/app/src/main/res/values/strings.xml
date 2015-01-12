@@ -24,5 +24,6 @@
     <string name="no">No</string>
     <string name="del">delete</string>
     <string name="fav">contact is favorites</string>
+    <string name="delFav">Delete Favorite ?</string>
 
 </resources>
