@@ -56,16 +56,18 @@ public class Contact extends ListFragment {
 
                                 if (boolFav == true) {
                                     ModelData modelData = new ModelData();
-                                    modelData.setFavorite(1);
-                                    modelData.setId(listData.get(i).getId());
 
                                     try {
                                         daoContact.open();
                                         try {
-                                            if (modelData.isFavorite() == 1){
+                                            if (listData.get(i).isFavorite() == 1){
                                                 Toast.makeText(getActivity(),getString(R.string.fav),Toast.LENGTH_SHORT).show();
                                             }
-                                            daoContact.toFavorites(modelData);
+                                            else{
+                                                modelData.setFavorite(1);
+                                                modelData.setId(listData.get(i).getId());
+                                                daoContact.toFavorites(modelData);
+                                            }
                                             Intent back = new Intent(getActivity(),MainActivity.class);
                                             startActivity(back);
                                         }finally {
@@ -105,45 +107,45 @@ public class Contact extends ListFragment {
 
                                 }
                             }
-                        });
+                    });
 
-                        getListView().setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-                            @Override
-                            public boolean onItemLongClick(final AdapterView<?> adapterView, final View view, final int pos, long l) {
+                    getListView().setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                        @Override
+                        public boolean onItemLongClick(final AdapterView<?> adapterView, final View view, final int pos, long l) {
 
-                                final AlertDialog.Builder dialogAlert = new AlertDialog.Builder(getActivity());
-                                dialogAlert.setMessage(getString(R.string.alert));
-                                dialogAlert.setCancelable(true);
+                            final AlertDialog.Builder dialogAlert = new AlertDialog.Builder(getActivity());
+                            dialogAlert.setMessage(getString(R.string.alert));
+                            dialogAlert.setCancelable(true);
 
-                                dialogAlert.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogAlert.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    try {
+                                        daoContact.open();
                                         try {
-                                            daoContact.open();
-                                            try {
-                                                ModelData modelData = new ModelData();
-                                                modelData.setId(listData.get(pos).getId());
-                                                daoContact.deleteRow(modelData);
-                                                getActivity().recreate();
+                                            ModelData modelData = new ModelData();
+                                            modelData.setId(listData.get(pos).getId());
+                                            daoContact.deleteRow(modelData);
+                                            getActivity().recreate();
 
-                                            } finally {
-                                                daoContact.close();
-                                            }
-                                        } catch (SQLException e) {
-                                            e.printStackTrace();
+                                        } finally {
+                                            daoContact.close();
                                         }
-
+                                    } catch (SQLException e) {
+                                        e.printStackTrace();
                                     }
-                                });
 
-                                dialogAlert.setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        dialogInterface.cancel();
-                                    }
-                                });
-                                AlertDialog alert = dialogAlert.create();
-                                alert.show();
+                                }
+                            });
+
+                            dialogAlert.setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.cancel();
+                                }
+                            });
+                            AlertDialog alert = dialogAlert.create();
+                            alert.show();
                                 return false;
                             }
                         });

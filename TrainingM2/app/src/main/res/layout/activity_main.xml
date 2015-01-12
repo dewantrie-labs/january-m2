@@ -9,7 +9,7 @@
     android:background="@color/blue100"
     tools:context=".MainActivity">
     <FrameLayout    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="470dp"
                     android:layout_weight="1"
                     android:id="@+id/utamaFrame"></FrameLayout>
     <android.support.v4.app.FragmentTabHost
