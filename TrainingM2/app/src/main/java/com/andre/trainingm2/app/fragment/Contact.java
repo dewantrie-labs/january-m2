@@ -3,22 +3,28 @@ package com.andre.trainingm2.app.fragment;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
+import android.support.v4.view.MenuItemCompat;
+import android.text.TextUtils;
+import android.view.*;
 
 import android.widget.AdapterView;
+import android.widget.SearchView;
 import android.widget.Toast;
 import com.andre.trainingm2.app.EditContactActivity;
 import com.andre.trainingm2.app.MainActivity;
 import com.andre.trainingm2.app.R;
 import com.andre.trainingm2.app.adapter.AdapterContact;
+import com.andre.trainingm2.app.adapter.SearchAdapter;
 import com.andre.trainingm2.app.dao.DaoContact;
+import com.andre.trainingm2.app.filter.ContactFilter;
 import com.andre.trainingm2.app.models.ModelData;
 import com.andre.trainingm2.app.models.OtherSet;
 
@@ -28,9 +34,10 @@ import java.util.ArrayList;
 /**
  * A simple {@link android.app.Fragment} subclass.
  */
-public class Contact extends ListFragment {
-
+public class Contact extends ListFragment implements SearchView.OnQueryTextListener {
+    private MenuItem searchMenuItem;
     private static boolean boolFav;
+    SearchView searchView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -48,8 +55,9 @@ public class Contact extends ListFragment {
             final ArrayList<ModelData> listData = daoContact.getAllContact();
             try{
                 if (listData!=null){
-                    final AdapterContact adapterContact = new AdapterContact(getActivity(),listData);
+                    SearchAdapter adapterContact = new SearchAdapter(getActivity(),listData);
                     setListAdapter(adapterContact);
+                    getListView().setTextFilterEnabled(false);
                     getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
                             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -163,4 +171,46 @@ public class Contact extends ListFragment {
     public static void newInstance(boolean test) {
         boolFav =test;
     }
+
+    @Override
+    public boolean onQueryTextSubmit(String s) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String s) {
+        DaoContact daoContact = new DaoContact(getActivity());
+        ArrayList<ModelData> listResult = daoContact.getAllContact();
+        SearchAdapter adapter = new SearchAdapter(getActivity(),listResult);
+        adapter.getFilter().filter(s);
+        return false;
+    }
+
+   /* @Override
+    public void onCreateOptionsMenu(Menu menu,MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_main, menu);
+
+        SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
+        searchMenuItem = menu.findItem(R.id.searchContact);
+        searchView = (SearchView) searchMenuItem.getActionView();
+
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
+        searchView.setSubmitButtonEnabled(true);
+        searchView.setOnQueryTextListener(this);
+
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String s) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String s) {
+        DaoContact daoContact = new DaoContact(getActivity());
+        ArrayList<ModelData> listResult = daoContact.getAllContact();
+        SearchAdapter adapter = new SearchAdapter(getActivity(),listResult);
+        adapter.getFilter().filter(s);
+        return false;
+    }*/
 }

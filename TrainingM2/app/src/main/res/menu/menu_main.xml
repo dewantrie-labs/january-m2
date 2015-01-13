@@ -5,6 +5,11 @@
     <item android:id="@+id/add"
         android:title="@string/add"
         android:icon="@drawable/add_icon"
-        app:showAsAction="always"
-        android:visible="true"/>
+        app:showAsAction="always"/>
+
+   <item android:id="@+id/searchContact"
+         android:title="@string/search"
+         android:icon="@drawable/search_icon"
+         app:showAsAction="always"
+         app:actionViewClass="android.widget.SearchView"></item>
 </menu>

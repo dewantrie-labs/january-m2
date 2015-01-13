@@ -25,5 +25,7 @@
     <string name="del">delete</string>
     <string name="fav">contact is favorites</string>
     <string name="delFav">Delete Favorite ?</string>
+    <string name="search">Search</string>
+    <string name="srccontact">Search Contact</string>
 
 </resources>

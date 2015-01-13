@@ -7,10 +7,9 @@ import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.*;
 import com.andre.trainingm2.app.R;
+import com.andre.trainingm2.app.filter.ContactFilter;
 import com.andre.trainingm2.app.models.ModelData;
 
 import java.io.ByteArrayOutputStream;
@@ -20,6 +19,7 @@ import java.util.ArrayList;
  * Created by Andree on 1/6/2015.
  */
 public class AdapterContact extends BaseAdapter {
+    ContactFilter contactFilter;
     Context context;
     ArrayList<ModelData> listData;
 
@@ -56,10 +56,10 @@ public class AdapterContact extends BaseAdapter {
         rowNameContact = (TextView) view.findViewById(R.id.rowName);
         rowNumberContact = (TextView) view.findViewById(R.id.rowNumber);
 
-        if (listData.get(i).getPict()!= null){
-        Bitmap imageNew = Bitmap.createScaledBitmap(BitmapFactory.decodeFile(listData.get(i).getPict()), 100, 100, false);
-        imageContactList.setImageBitmap(imageNew);}
-        else {
+        if (listData.get(i).getPict() != null) {
+            Bitmap imageNew = Bitmap.createScaledBitmap(BitmapFactory.decodeFile(listData.get(i).getPict()), 200, 200, false);
+            imageContactList.setImageBitmap(imageNew);
+        } else {
             imageContactList.setImageResource(R.drawable.default_thumb);
         }
         rowNameContact.setText(listData.get(i).getName());
@@ -68,3 +68,5 @@ public class AdapterContact extends BaseAdapter {
         return view;
     }
 }
+
+
