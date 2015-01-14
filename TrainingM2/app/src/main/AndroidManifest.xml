@@ -40,7 +40,7 @@
         <activity
             android:name="com.andre.trainingm2.app.EditContactActivity"
             android:label="@string/title_activity_edit_contact"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName="com.andre.trainingm2.app.MainActivity">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
                     android:value=".MainActivity">

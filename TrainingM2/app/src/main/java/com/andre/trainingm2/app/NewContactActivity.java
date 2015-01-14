@@ -15,6 +15,8 @@ import com.andre.trainingm2.app.dao.DaoContact;
 import com.andre.trainingm2.app.models.OtherSet;
 import com.andre.trainingm2.app.models.ModelData;
 
+import java.sql.SQLException;
+
 
 public class NewContactActivity extends ActionBarActivity {
     private ImageView imagePhone;
@@ -23,7 +25,7 @@ public class NewContactActivity extends ActionBarActivity {
     private DaoContact dbContact;
     private ModelData modelData;
     private Button saveButton;
-    private OtherSet otherSet =new OtherSet();
+    private OtherSet otherSet = new OtherSet();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,18 +49,26 @@ public class NewContactActivity extends ActionBarActivity {
                 modelData.setPict(otherSet.getImageSet());
                 modelData.setName(name.getText().toString());
                 modelData.setNumber(phone.getText().toString());
+
                 dbContact = new DaoContact(NewContactActivity.this);
-                try {
-                    dbContact.open();
-                    try{
-                        dbContact.CreateContact(modelData);
-                        Toast.makeText(NewContactActivity.this, "success", Toast.LENGTH_SHORT).show();}
-                    finally {
-                        dbContact.close();
+
+
+                if (modelData.getName()!= null
+                        && modelData.getNumber().toString()!= null
+                        && otherSet.getImageSet()!= null) {
+
+                    try {
+                        dbContact.open();
+                        try {
+                            dbContact.CreateContact(modelData);
+                            Toast.makeText(NewContactActivity.this, "success", Toast.LENGTH_SHORT).show();
+                        } finally {
+                            dbContact.close();
+                        }
+                    } catch (Exception e) {
+                        Toast.makeText(NewContactActivity.this, "failed" + e.toString(), Toast.LENGTH_SHORT).show();
+                        e.printStackTrace();
                     }
-                } catch (Exception e) {
-                    Toast.makeText(NewContactActivity.this, "failed" + e.toString(), Toast.LENGTH_SHORT).show();
-                    e.printStackTrace();
                 }
                 Intent backMenu = new Intent(NewContactActivity.this,MainActivity.class);
                 startActivity(backMenu);
@@ -93,6 +103,10 @@ public class NewContactActivity extends ActionBarActivity {
         }
     }
 
-
+@Override
+public void onBackPressed(){
+    Intent back = new Intent(NewContactActivity.this,MainActivity.class);
+    startActivity(back);
+}
 
 }

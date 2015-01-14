@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 import com.andre.trainingm2.app.R;
-import com.andre.trainingm2.app.filter.ContactFilter;
 import com.andre.trainingm2.app.models.ModelData;
 
 import java.io.ByteArrayOutputStream;
@@ -19,13 +18,15 @@ import java.util.ArrayList;
  * Created by Andree on 1/6/2015.
  */
 public class AdapterContact extends BaseAdapter {
-    ContactFilter contactFilter;
     Context context;
     ArrayList<ModelData> listData;
+    ArrayList<ModelData> filterList;
 
     public AdapterContact(Context context, ArrayList<ModelData> objects) {
         this.context = context;
         listData = objects;
+        filterList=new ArrayList<ModelData>();
+        filterList.addAll(listData);
     }
 
     @Override
@@ -66,6 +67,20 @@ public class AdapterContact extends BaseAdapter {
         rowNumberContact.setText(listData.get(i).getNumber());
 
         return view;
+    }
+
+    public void  filter(CharSequence data) {
+        listData.clear();
+
+        if (data.length() == 0) {
+            listData.addAll(filterList);
+        } else {
+            for (ModelData modelData : listData){
+                if (modelData.getName().toLowerCase().contains(data.toString().toLowerCase())){
+                    listData.add(modelData);
+                }
+            }
+        }
     }
 }
 

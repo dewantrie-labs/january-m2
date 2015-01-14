@@ -27,5 +27,6 @@
     <string name="delFav">Delete Favorite ?</string>
     <string name="search">Search</string>
     <string name="srccontact">Search Contact</string>
+    <string name="nullData">Data tidak tersimpan</string>
 
 </resources>

@@ -69,7 +69,7 @@ public class Favorite extends ListFragment {
                                     edit.putExtras(editData);
 
                                     startActivity(edit);
-                                    getActivity().finish();
+
                                 } finally {
                                     daoContact.close();
                                 }

@@ -60,11 +60,9 @@ public class MainActivity extends ActionBarActivity {
 
            if (s.equalsIgnoreCase(getString(R.string.Tab1))){
                setTitle(getString(R.string.Favorite));
-               Toast.makeText(getApplicationContext(),getSupportActionBar().getTitle().toString(),Toast.LENGTH_LONG).show();
            }
            else if (s.equalsIgnoreCase(getString(R.string.Tab2))) {
                setTitle(getString(R.string.Contact));
-               Toast.makeText(getApplicationContext(),getSupportActionBar().getTitle().toString(),Toast.LENGTH_LONG).show();
                addFav = false;
                Contact.newInstance(addFav);}
            }
@@ -76,13 +74,13 @@ public class MainActivity extends ActionBarActivity {
     MenuInflater inflater=getMenuInflater();
     inflater.inflate(R.menu.menu_main,menu);
 
-    MenuItem searchMenu = menu.findItem(R.id.searchContact);
+    /*MenuItem searchMenu = menu.findItem(R.id.searchContact);
 
     SearchManager searchManager = (SearchManager)getSystemService(Context.SEARCH_SERVICE);
     searchView = (SearchView) MenuItemCompat.getActionView(searchMenu);
 
     searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-    searchView.setSubmitButtonEnabled(true);
+    searchView.setSubmitButtonEnabled(true);*/
 
     return super.onCreateOptionsMenu(menu);
 }
@@ -93,6 +91,7 @@ public class MainActivity extends ActionBarActivity {
             if (getSupportActionBar().getTitle().toString().equalsIgnoreCase(getString(R.string.Contact))) {
                 Intent nContact = new Intent(this, NewContactActivity.class);
                 startActivity(nContact);
+                MainActivity.this.finish();
             } else {
                 tabHost.onTabChanged(getString(R.string.Tab2));
                 addFav = true;

@@ -1,31 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
+              android:padding="10dp"
               android:background="@color/blue100">
 
     <ImageView
-            android:layout_width="@dimen/width_image"
-            android:layout_height="@dimen/height_image"
-            android:id="@+id/imageList"/>
-    <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/black"
-            android:text="Large Text"
-            android:id="@+id/rowName" android:layout_gravity="center_horizontal"
+            android:layout_height="fill_parent"
             android:layout_alignParentTop="true"
-            android:layout_toRightOf="@+id/imageList" android:layout_toEndOf="@+id/imageList"/>
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="4px"
+            android:id="@+id/imageList"/>
+    <LinearLayout android:layout_width="fill_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="vertical">
+    <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:text="Large Text"
+            android:textStyle="bold"
+            android:layout_weight="1"
+            android:id="@+id/rowName"
+            android:gravity="center_vertical"
+            android:singleLine="true"
+            android:ellipsize="end"/>
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Large Text"
             android:textColor="@color/black"
-            android:id="@+id/rowNumber" android:layout_gravity="center_horizontal" android:layout_below="@+id/rowName"
-            android:layout_toRightOf="@+id/imageList" android:layout_toEndOf="@+id/imageList"/>
-
-</RelativeLayout>
+            android:id="@+id/rowNumber"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:singleLine="true"
+            android:ellipsize="end"/>
+</LinearLayout>
+</LinearLayout>

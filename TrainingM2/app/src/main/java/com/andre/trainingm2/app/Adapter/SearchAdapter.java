@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 import com.andre.trainingm2.app.R;
-import com.andre.trainingm2.app.filter.ContactFilter;
 import com.andre.trainingm2.app.fragment.Contact;
 import com.andre.trainingm2.app.models.ModelData;
 
@@ -25,7 +24,6 @@ public class SearchAdapter extends BaseAdapter implements Filterable {
     Context context;
     ArrayList<ModelData> listData;
     ArrayList<ModelData> filterList;
-    Typeface typeface;
 
     public SearchAdapter(Context context, ArrayList<ModelData> objects) {
         this.context = context;
@@ -56,12 +54,13 @@ public class SearchAdapter extends BaseAdapter implements Filterable {
         final ModelData modelData = (ModelData)getItem(i);
         if (view == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(R.layout.holderview, viewGroup, false);
+           // view = inflater.inflate(R.layout.holderview, viewGroup, false);
 
             holder = new ViewHolder();
-            holder.textHolder = (TextView)view.findViewById(R.id.textHolder);
+            //holder.textHolder = (TextView)view.findViewById(R.id.textHolder);
             view.setTag(holder);
         }
+
         else{
              holder = (ViewHolder)view.getTag();
         }

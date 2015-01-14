@@ -204,14 +204,15 @@ public class EditContactActivity extends ActionBarActivity implements View.OnCli
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
-        int id = item.getItemId();
+       switch(item.getItemId()) {
 
-            if (id == R.id.delete) {
-            editPhoneData.setText(null);
-            editNameData.setText(null);
-            imageEdit.setImageResource(R.drawable.default_thumb);
-            otherSet.setImageSet(null);
-        }
+           case R.id.delete :
+               editPhoneData.setText(null);
+               editNameData.setText(null);
+               imageEdit.setImageResource(R.drawable.default_thumb);
+               otherSet.setImageSet(null);
+           break;
+       }
 
         return super.onOptionsItemSelected(item);
     }
