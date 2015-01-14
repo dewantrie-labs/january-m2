@@ -74,8 +74,8 @@ public class AdapterContact extends BaseAdapter {
 
         if (data.length() == 0) {
             listData.addAll(filterList);
-        } else {
-            for (ModelData modelData : listData){
+        } else if (data != null && data.length()>0){
+            for (ModelData modelData : filterList){
                 if (modelData.getName().toLowerCase().contains(data.toString().toLowerCase())){
                     listData.add(modelData);
                 }
