@@ -52,10 +52,11 @@ public class NewContactActivity extends ActionBarActivity {
 
                 dbContact = new DaoContact(NewContactActivity.this);
 
-
-                if (modelData.getName()!= null
-                        && modelData.getNumber().toString()!= null
-                        && otherSet.getImageSet()!= null) {
+                modelData.getName();
+                if (modelData.getName()== null
+                        && modelData.getNumber().toString()== null
+                        && otherSet.getImageSet()== null) {
+                }else{
 
                     try {
                         dbContact.open();

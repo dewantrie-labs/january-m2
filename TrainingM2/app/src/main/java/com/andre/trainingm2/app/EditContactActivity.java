@@ -26,7 +26,6 @@ import java.sql.SQLException;
 
 
 public class EditContactActivity extends ActionBarActivity implements View.OnClickListener {
-    private ModelData modelData;
     private EditText editNameData;
     private EditText editPhoneData;
     private ImageView imageEdit;
@@ -58,23 +57,23 @@ public class EditContactActivity extends ActionBarActivity implements View.OnCli
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.blue400)));
         setTitle(getString(R.string.editContact));
 
-        bundle = getIntent().getExtras();
-        String nameData = bundle.getString("nama");
-        String PhoneData = bundle.getString("phone");
-        String imageData = bundle.getString("image");
+        ModelData modelData = (ModelData) getIntent().getSerializableExtra("editData");
+        String nameData = modelData.getName();
+        String PhoneData = modelData.getNumber();
+        String imageData = modelData.getPict();
         Boolean option = bundle.getBoolean("setEdit");
 
         if (option==true){
             addFav.setVisibility(View.VISIBLE);
-            option=false;
+            option = false;
         }
 
         if (bundle != null){
             editNameData.setText(nameData);
             editPhoneData.setText(PhoneData);
 
-            if (bundle.getString("image")!=null){
-                Bitmap bitmap= Bitmap.createScaledBitmap(BitmapFactory.decodeFile(bundle.getString("image")),50,50,false);
+            if (modelData.getPict() != null){
+                Bitmap bitmap= Bitmap.createScaledBitmap(BitmapFactory.decodeFile(modelData.getPict()),50,50,false);
                 imageEdit.setImageBitmap(bitmap);
                 otherSet.setImageSet(imageData);
             }
@@ -89,19 +88,19 @@ public class EditContactActivity extends ActionBarActivity implements View.OnCli
     public void onClick(View view){
         switch (view.getId()){
             case R.id.save_buttonEdit:
-                modelData = new ModelData();
                 bundle=getIntent().getExtras();
+
+                ModelData modelData = (ModelData) bundle.getSerializable("editData");
                 daoContact=new DaoContact(EditContactActivity.this);
 
-                modelData.setId(bundle.getInt("id"));
                 modelData.setName(editNameData.getText().toString());
                 modelData.setNumber(editPhoneData.getText().toString());
                 modelData.setPict(otherSet.getImageSet());
 
 
                 if (modelData.getName()!= null
-                    && modelData.getNumber().toString()!=null
-                    && otherSet.getImageSet()!=null) {
+                    || modelData.getNumber().toString()!=null
+                    || otherSet.getImageSet()!=null) {
 
                     try {
                         daoContact.open();
@@ -120,7 +119,7 @@ public class EditContactActivity extends ActionBarActivity implements View.OnCli
                         daoContact.open();
                         try{
 
-                            modelData.setId(bundle.getInt("id"));
+                            modelData.setId(modelData.getId());
                             daoContact.deleteRow(modelData);
 
                         }finally {
@@ -141,14 +140,13 @@ public class EditContactActivity extends ActionBarActivity implements View.OnCli
                 break;
 
             case R.id.button_add_fav:
-                modelData=new ModelData();
+                modelData= (ModelData) getIntent().getSerializableExtra("editData");
                 daoContact=new DaoContact(EditContactActivity.this);
-                if (bundle.getInt("favorite") == 1){
+                if (modelData.isFavorite() == 1){
                     Toast.makeText(getApplicationContext(),getString(R.string.fav),Toast.LENGTH_SHORT).show();
                 }
                 else {
                     modelData.setFavorite(1);
-                    modelData.setId(bundle.getInt("id"));
                     try {
                         daoContact.open();
                         try {
@@ -215,5 +213,11 @@ public class EditContactActivity extends ActionBarActivity implements View.OnCli
        }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed(){
+        Intent toBack = new Intent(EditContactActivity.this,MainActivity.class);
+        startActivity(toBack);
     }
 }

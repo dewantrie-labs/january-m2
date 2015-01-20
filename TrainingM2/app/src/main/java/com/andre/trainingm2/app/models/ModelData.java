@@ -1,16 +1,17 @@
 package com.andre.trainingm2.app.models;
 
+import java.io.Serializable;
+
 /**
  * Created by Andree on 1/5/2015.
  */
-public class ModelData {
+public class ModelData implements Serializable {
     private String Pict;
     private String Name;
     private String Number;
     private int id;
     private int favorite;
-
-
+    private static final long serialVersionUID=1L;
 
     public void setName(String name) {
         Name = name;

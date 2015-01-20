@@ -22,6 +22,7 @@ import com.andre.trainingm2.app.adapter.AdapterFavorites;
 import com.andre.trainingm2.app.dao.DaoContact;
 import com.andre.trainingm2.app.database.DatabaseContact;
 import com.andre.trainingm2.app.models.ModelData;
+import com.andre.trainingm2.app.models.OtherSet;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -39,10 +40,10 @@ public class Favorite extends ListFragment {
        return super.onCreateView(inflater,container,savedInstanceState);
     }
 
+
     @Override
     public void onViewCreated(View view,Bundle savedInstance) {
         final DaoContact daoContact = new DaoContact(getActivity());
-
         try {
             daoContact.open();
             final ArrayList<ModelData> listFavorites = daoContact.getFavorite();
@@ -50,6 +51,8 @@ public class Favorite extends ListFragment {
                 if (listFavorites!=null) {
                     AdapterFavorites adapterFavorites = new AdapterFavorites(getActivity(), listFavorites);
                     setListAdapter(adapterFavorites);
+                    adapterFavorites.notifyDataSetChanged();
+                    getListView().invalidateViews();
                     getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -61,14 +64,13 @@ public class Favorite extends ListFragment {
                                     ModelData modelData = daoContact.getContact(listFavorites.get(i).getId());
                                     Bundle editData = new Bundle();
 
-                                    editData.putInt("id", modelData.getId());
-                                    editData.putString("nama", modelData.getName());
-                                    editData.putString("phone", modelData.getNumber());
-                                    editData.putString("image", modelData.getPict());
-                                    editData.putBoolean("setEdit",false);
+                                    editData.putSerializable("editData",modelData);
+                                    editData.putBoolean("setEdit", false);
                                     edit.putExtras(editData);
 
                                     startActivity(edit);
+                                    getActivity().finish();
+
 
                                 } finally {
                                     daoContact.close();
@@ -131,4 +133,6 @@ public class Favorite extends ListFragment {
             e.printStackTrace();
         }
     }
+
+
 }
